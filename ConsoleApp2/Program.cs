@@ -507,7 +507,7 @@ for (int i = 0; i < massnum.Length; i++)
     }
 }*/
 //26
-/*using Microsoft.VisualBasic;
+using Microsoft.VisualBasic;
 
 Console.WriteLine("Введите часы");
 int hour = int.Parse(Console.ReadLine());
@@ -531,7 +531,7 @@ switch (Console.ReadLine())
 }
 Console.WriteLine($"Ответ: {date1}");*/
 //27
-/*class Programm
+class Programm
 {
     static void Main()
     {
@@ -555,9 +555,9 @@ Console.WriteLine($"Ответ: {date1}");*/
             Console.WriteLine("Корней нету");
         }
     }
-}*/
+}
 //28
-/*class Programm
+class Programm
 {
     static void Main()
     {
@@ -580,5 +580,24 @@ Console.WriteLine($"Ответ: {date1}");*/
         float y = otvetY / obch;
         Console.WriteLine($"Решение системы уравнений: x = {x}, y = {y}");
     }
-}*/
+}
 //29
+class Programm
+{
+    static void Main()
+    {
+
+        foreach (var drive in DriveInfo.GetDrives())
+        {
+                Console.WriteLine("Имя диска: " + drive.Name);
+                Console.WriteLine("Файловая система: " + drive.DriveFormat);
+                Console.WriteLine("Объем доступного свободного места (в байтах): " + drive.AvailableFreeSpace);
+                Console.WriteLine("Готов ли диск: " + drive.IsReady);
+                Console.WriteLine("Корневой каталог диска: " + drive.RootDirectory);
+                Console.WriteLine("Общий объем свободного места, доступного на диске (в байтах): " + drive.TotalFreeSpace);
+                Console.WriteLine("Размер диска (в байтах): " + drive.TotalSize);
+                Console.WriteLine();
+        }
+        
+    }
+}
