@@ -557,3 +557,28 @@ Console.WriteLine($"Ответ: {date1}");*/
     }
 }*/
 //28
+/*class Programm
+{
+    static void Main()
+    {
+        Console.WriteLine("Введите значение x");
+        float x1 = Convert.ToInt32 (Console.ReadLine());
+        Console.WriteLine("Введите значение y");
+        float y1 = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Введите ответ");
+        float z1 = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Введите значение x");
+        float x2 = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Введите значение y");
+        float y2 = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Введите ответ");
+        float z2 = Convert.ToInt32(Console.ReadLine());
+        float obch = x1 * y2 - x2 * y1;
+        float otvetX = z1 * y2 - z2 * y1;
+        float otvetY = x1 * z2 - x2 * z1;
+        float x = otvetX / obch;
+        float y = otvetY / obch;
+        Console.WriteLine($"Решение системы уравнений: x = {x}, y = {y}");
+    }
+}*/
+//29
