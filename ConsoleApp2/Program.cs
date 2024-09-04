@@ -631,3 +631,28 @@ class Programm
         }
     }
 }
+//31
+using Newtonsoft.Json;
+using System.Data;
+
+class Programm
+{
+    static void Main()
+    {
+        const string json = @"[
+            {""Name"":""AAA"",""Age"":""22"",""Job"":""PPP""},
+            {""Name"":""BBB"",""Age"":""25"",""Job"":""QQQ""},
+            {""Name"":""CCC"",""Age"":""38"",""Job"":""RRR""}
+        ]";
+        var table = JsonConvert.DeserializeObject<DataTable>(json);
+        Console.WriteLine(table);
+         foreach (DataRow row in table.Rows)
+        {
+            foreach (DataColumn column in table.Columns)
+            {
+                Console.Write($"{column.ColumnName}: {row[column]} ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
