@@ -601,3 +601,33 @@ class Programm
         
     }
 }
+//30
+class Programm
+{
+    static void Main()
+    {
+        Console.WriteLine("Введите путь где будет работа с файлами");
+        string path = Console.ReadLine();
+        string newpath,file;
+        int z = 0;
+        while (true)
+        {
+            Console.WriteLine("Введите название и тип файла (пример mytest.txt)");
+            file = path + '/' + Console.ReadLine();
+            Console.WriteLine("Выберите действие создание/удаление/перемещение/копирование");
+            string variant = Console.ReadLine();
+            if (variant == "создание") File.Create(file);
+            if (variant == "удаление") File.Delete(file);
+            if (variant == "перемещение")
+            {
+                Console.WriteLine("Выберите куда переместить файл с указанием его названия и типом файла");
+                newpath = Console.ReadLine();
+                File.Move(file, newpath);
+            }
+            if (variant == "копирование") {
+                File.Copy(file, file + $"({z})");
+                z++;
+            }
+        }
+    }
+}
