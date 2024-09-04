@@ -507,7 +507,7 @@ for (int i = 0; i < massnum.Length; i++)
     }
 }*/
 //26
-using Microsoft.VisualBasic;
+/*using Microsoft.VisualBasic;
 
 Console.WriteLine("Введите часы");
 int hour = int.Parse(Console.ReadLine());
@@ -529,4 +529,31 @@ switch (Console.ReadLine())
         date1 = date1.Add(date2.TimeOfDay);
         break;
 }
-Console.WriteLine($"Ответ: {date1}");
+Console.WriteLine($"Ответ: {date1}");*/
+//27
+/*class Programm
+{
+    static void Main()
+    {
+        Console.WriteLine("Введите коэфицент a");
+        double a = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Введите коэфицент b");
+        double b = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Введите коэфицент c");
+        double c = Convert.ToInt32(Console.ReadLine());
+        if(b*b - a*c*4 > 0)
+        {
+            Console.WriteLine($"Ваш первый коэфицент x равен: {(-1*b+Math.Sqrt(b * b - a * c * 4))/(2*a)} ");
+            Console.WriteLine($"Ваш второй коэфицент x равен: {(-1 * b - Math.Sqrt(b * b - a * c * 4)) / (2 * a)} ");
+        }
+        else if(b * b - a * c * 4 == 0)
+        {
+            Console.WriteLine($"Ваш ответ равен: {(-1 * b )/ (2 * a)}");
+        }
+        else if (b * b - a * c * 4 < 0)
+        {
+            Console.WriteLine("Корней нету");
+        }
+    }
+}*/
+//28
