@@ -745,3 +745,40 @@ class work
         status = true;
     }
 }
+
+//34
+class HelloWorld
+{
+    static void Main()
+    {
+        string path = "oldFile.txt";
+        string z = "";
+        try
+        {
+            using (StreamWriter sw = File.CreateText(path))
+            {
+                sw.WriteLine("Hello");
+                sw.WriteLine("And");
+                sw.WriteLine("Welcome");
+            }
+                string readText = File.ReadAllText(path);
+            foreach (char s in readText)
+            {
+                if (s == char.ToLower(s))
+                    z += char.ToUpper(s);
+
+                if (s == char.ToUpper(s))
+                    z += char.ToLower(s);
+            }
+            using (StreamWriter sw = File.CreateText(path))
+            {
+                sw.WriteLine(z);
+            }
+            Console.WriteLine( readText = File.ReadAllText(path));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}
