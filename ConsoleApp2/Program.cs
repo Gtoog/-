@@ -693,3 +693,55 @@ class HelloWorld
         }
     }
 }
+//33
+class HelloWorld
+{
+    static void Main()
+    {
+       List<work> list = new List<work>();
+        int count = 0;
+        while (true)
+        {
+            Console.WriteLine("ВЫберите действие \n1) Добавить дело\n2) удалить дело\n3)Отметить дело\n4)Вывод всех дел");
+            switch (int.Parse(Console.ReadLine())) 
+            {
+                case 1:
+                    Console.WriteLine("Напишите ваше дело");
+                    list.Add(new work());
+                    list[count].Create(Console.ReadLine());
+                    count++;
+                    break;
+                case 2:
+                    Console.WriteLine("Напишите номер дела для удаления");
+                    list.Remove(list[int.Parse(Console.ReadLine())]);
+                    count--;
+                    break;
+                case 3:
+                    Console.WriteLine("Напишите номер дела для отметки");
+                    list[int.Parse(Console.ReadLine())].otmetka();
+                    break;
+                case 4:
+                    for(int i = 0; i < list.Count();i++)
+                    {
+                        Console.WriteLine($"Задача: {list[i].quest} Статус: {list[i].status}");
+                    }
+                    break;
+            }
+        }
+    }
+}
+class work
+{
+    public string quest { get; set; }
+    public bool status = false;
+    
+    public void Create(string message)
+    {
+        quest = message;
+        Console.WriteLine("Ваша задача добавлена");
+    }
+    public void otmetka()
+    {
+        status = true;
+    }
+}
