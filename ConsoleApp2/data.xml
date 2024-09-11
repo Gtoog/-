@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items>
+    <Item>
+        <Id>1</Id>
+        <Name>Item1</Name>
+        <Price>10</Price>
+    </Item>
+    <Item>
+        <Id>2</Id>
+        <Name>Item2</Name>
+        <Price>20</Price>
+    </Item>
+</Items>
