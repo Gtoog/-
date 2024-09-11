@@ -656,3 +656,40 @@ class Programm
         }
     }
 }
+//32
+using System.Data;
+using System.IO;
+using System.Text;
+using System.Xml;
+
+class HelloWorld
+{
+    static void Main()
+    {
+        string xmlFilePath = "data.xml";
+
+        DataTable dataTable = new DataTable();
+        dataTable.Columns.Add("Id", typeof(int));
+        dataTable.Columns.Add("Name", typeof(string));
+        dataTable.Columns.Add("Price", typeof(string));
+
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.Load(xmlFilePath);
+
+        XmlNodeList itemList = xmlDoc.GetElementsByTagName("Item");
+
+        foreach (XmlNode item in itemList)
+        {
+            DataRow row = dataTable.NewRow();
+            row["Id"] = Convert.ToInt32(item["Id"].InnerText);
+            row["Name"] = item["Name"].InnerText;
+            row["Price"] = Convert.ToString(item["Price"].InnerText);
+            dataTable.Rows.Add(row);
+        }
+        Console.WriteLine("Id\tName\tPrice");
+        foreach (DataRow row in dataTable.Rows)
+        {
+            Console.WriteLine($"{row["Id"]}\t{row["Name"]}\t{row["Price"]}");
+        }
+    }
+}
