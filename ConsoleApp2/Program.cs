@@ -856,3 +856,70 @@ class Progmramm
         }
     }
 }
+//36
+using System;
+
+class Progmramm
+{
+    static void Main()
+    {
+        List<student> list = new List<student>();
+        int z = 0;
+        bool exit = true;
+        while (exit) 
+        {
+            Console.WriteLine("Выберите дейсвтие \n1) Добавить студента \n2) посмотреть всех студентов \n3) Выйти ");
+            int chose = int.Parse(Console.ReadLine());
+            switch(chose)
+            {
+                case 1:
+                    list.Add(new student());
+                    Console.WriteLine("Введите имя студента");
+                    list[z].name = Console.ReadLine();
+                    Console.WriteLine("Введите возраст студента");
+                    list[z].age = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Введите оценки студента чтобы прекратить ввод напишите 0");
+                    while (true) 
+                    {
+                        try
+                        {
+                            int number = int.Parse(Console.ReadLine());
+                            if (number == 0)
+                            {
+                                break;
+                            }
+                            list[z].ochenka.Add(number);
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                    }
+                    z++;
+                    break;
+                    case 2:
+                    for(int i = 0; i < list.Count; i++)
+                    {
+                        Console.WriteLine($"Имя {list[i].name} \nВозраст{list[i].age}\nОценки {string.Join(", ", list[i].ochenka)}");
+                    }
+                    break;
+                    case 3:
+                    exit = false;
+                    break;
+            }
+
+        }
+        
+    }
+}
+class student
+{
+    public string name { get; set; }
+    public int age { get; set; }
+
+    public List<int> ochenka { get; set; }
+    public student()
+    {
+        ochenka = new List<int>();
+    }
+}
