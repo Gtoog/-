@@ -1002,3 +1002,184 @@ class Number
     public string number { get; set; }
     public string email { get; set; }
 }
+using System;
+//38
+class Progmramm
+{
+    static void Main()
+    {
+        Pole pole = new Pole();
+        bool exit = true;
+        bool player = true;
+        while (exit)
+        {
+            pole.vivod();
+            pole.hod(player);
+            player = !player;
+            if(pole.cheak() == 5)
+            {
+                if(player)
+                    Console.WriteLine("Выйграл игрок 1");
+                else
+                    Console.WriteLine("Выйграл игрок 1");
+                exit = false;
+            }
+            if (pole.IsBoardFull())
+            {
+                Console.WriteLine("Никто не выйграл");
+                exit = false;
+            }
+        }
+    }
+}
+class Pole
+{
+    public int[,] z { get; set; }
+
+    public Pole()
+    {
+        z = new int[,]
+        {
+            { 1, 1, 1 },
+            { 1, 1, 1 },
+            { 1, 1, 1 },
+        };
+    }
+    public void vivod()
+    {
+        for(int i = 0; i < z.GetLength(0); i++)
+        {
+            for(int j = 0; j < z.GetLength(1); j++)
+            {
+                Console.Write("|  ");
+                if (z[i, j] == 1)
+                    Console.Write(" ");
+                else if (z[i, j] == 0)
+                    Console.Write("X");
+                else if (z[i,j] == 2)
+                    Console.Write("0");
+                Console.Write("   |");
+            }
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+    }
+    public void hod(bool player)
+    {
+        Console.WriteLine("Выберите ваш ход при помощи координатов");
+        int row = int.Parse(Console.ReadLine());
+        int cols = int.Parse(Console.ReadLine());
+        if (z[row, cols] == 1)
+        {
+            if (player)
+                z[row, cols] = 0;
+            else
+                z[row, cols] = 2;
+        }
+        else
+        {
+            Console.WriteLine("Выбранное место уже занято выберите другое");
+            hod(player);
+        }
+    }
+    public int cheak()
+    {
+        for (int row = 0; row < 3; row++)
+        {
+            if (z[row, 0] != 1 && z[row, 0] == z[row, 1] && z[row, 1] == z[row, 2])
+            {
+                return 5; 
+            }
+        }
+
+        for (int col = 0; col < 3; col++)
+        {
+            if (z[0, col] != 1 && z[0, col] == z[1, col] && z[1, col] == z[2, col])
+            {
+                return 5; 
+            }
+        }
+
+        if (z[0, 0] != 1 && z[0, 0] == z[1, 1] && z[1, 1] == z[2, 2])
+        {
+            return 5; 
+        }
+
+        if (z[0, 2] != 1 && z[0, 2] == z[1, 1] && z[1, 1] == z[2, 0])
+        {
+            return 5; 
+        }
+        return 0; 
+    }
+    public bool IsBoardFull()
+    {
+        for (int row = 0; row < 3; row++)
+        {
+            for (int col = 0; col < 3; col++)
+            {
+                if (z[row, col] == 1)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+
+using System;
+//39
+class Programm
+{
+    static void Main()
+    {
+        Random random = new Random();
+        string number = Convert.ToString(random.Next(1000, 9999)); 
+        bool exit = true;
+        string z = "";
+
+        while (exit)
+        {
+            int buk = 0, korova = 0; 
+            Console.WriteLine("Введите ваше число");
+            z = Console.ReadLine();
+
+            bool[] usedInBulls = new bool[4]; 
+            bool[] usedInCows = new bool[4];   
+
+           
+            for (int i = 0; i < 4; i++)
+            {
+                if (z[i] == number[i])
+                {
+                    buk++;
+                    usedInBulls[i] = true;  
+                }
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (!usedInBulls[i])  
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        if (i != j && !usedInBulls[j] && !usedInCows[j] && z[i] == number[j])
+                        {
+                            korova++;
+                            usedInCows[j] = true;  
+                            break;  
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine($"Быков: {buk}, Коров: {korova}");
+
+            if (z == number)
+            {
+                Console.WriteLine("Поздравляю с победой!");
+                exit = false;
+            }
+        }
+    }
+}
