@@ -923,3 +923,82 @@ class student
         ochenka = new List<int>();
     }
 }
+//37
+using System;
+
+class Progmramm
+{
+    static void Main()
+    {
+        List<Number> list = new List<Number>();
+        bool exit = true;
+        int del = 0;
+        int z = 0;
+        while (exit) 
+        {
+            Console.WriteLine("Выбери опцию \n1) Добавить\n2) удалить контакт\n3)редактироение контакта\n4)поиск контакта\n5)Выйти");
+            int chose = int.Parse(Console.ReadLine());
+            switch(chose)
+            {
+                case 1:
+                    list.Add(new Number());
+                    Console.WriteLine("Введите имя");
+                    list[z].name = Console.ReadLine();
+                    Console.WriteLine("Введите номер");
+                    list[z].number = Console.ReadLine();
+                    Console.WriteLine("Введите почту");
+                    list[z].email = Console.ReadLine();
+                    z++;
+                    break;
+                case 2:
+                    Console.WriteLine("Введите номер контакта для удаления");
+                    del = int.Parse(Console.ReadLine());
+                    list.Remove(list[del]);
+                    z--;
+                    break;
+                case 3:
+                    Console.WriteLine("Введите номер контакта для изменения");
+                    del = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Введите имя");
+                    list[del].name = Console.ReadLine();
+                    Console.WriteLine("Введите номер");
+                    list[del].number = Console.ReadLine();
+                    Console.WriteLine("Введите почту");
+                    list[del].email = Console.ReadLine();
+                    z++;
+                    break;
+                case 4:
+                    Console.WriteLine("Введите фразу для поиска:");
+                    string searchKeyword = Console.ReadLine();
+                    List<Number> searchResults = list.FindAll(s =>
+                        s.name.Contains(searchKeyword, StringComparison.OrdinalIgnoreCase) ||
+                        s.number.Contains(searchKeyword, StringComparison.OrdinalIgnoreCase) ||
+                        s.email.Contains(searchKeyword, StringComparison.OrdinalIgnoreCase));
+
+                    if (searchResults.Count > 0)
+                    {
+                        Console.WriteLine("Найденные контакты:");
+                        foreach (Number result in searchResults)
+                        {
+                            Console.WriteLine($"Имя: {result.name}, Телефон: {result.number}, Email: {result.email}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Контакты не найдены.");
+                    }
+                    break;
+                case 5:
+                    exit = false;
+                    break;
+            }
+        }
+        
+    }
+}
+class Number
+{
+    public string name {  get; set; }
+    public string number { get; set; }
+    public string email { get; set; }
+}
