@@ -782,3 +782,77 @@ class HelloWorld
         }
     }
 }
+//35
+using System;
+
+class Progmramm
+{
+    static void Main()
+    {
+
+        Console.WriteLine("Текущий календарь");
+        DateTime firstDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+        int days = DateTime.DaysInMonth(firstDayOfMonth.Year, firstDayOfMonth.Month);
+        int x = 1;
+
+        int offset = (int)firstDayOfMonth.DayOfWeek;
+
+        string[] z = { "Пн", "Вт", "Ср", "Чт", "Пт", "Cб", "Вс" };
+        string[] file = new string[days];
+        int dayofweek = (int)firstDayOfMonth.DayOfWeek;
+        for (int i = 0; i < z.Length; i++) Console.Write(z[i] + "\t");
+        Console.WriteLine();
+
+        for (int i = offset - 5; i <= days; i++)
+        {
+            if (i > 0)
+            {
+                Console.Write($"{i,2}  \t");
+            }
+            else
+            {
+                Console.Write("\t");
+            }
+
+            if ((i + offset - 1) % 7 == 0 && i != 0)
+            {
+                Console.WriteLine();
+            }
+        }
+        bool exit = true;
+        while (exit)
+        {
+            try
+            {
+                Console.WriteLine();
+                Console.WriteLine("Выберите \n1) посмотреть заметку на день \n2) оставить заметку \n3) выйти");
+                int vibor = Console.ReadKey().KeyChar;
+                Console.WriteLine();
+                Console.WriteLine("Введите день");
+                int day = int.Parse(Console.ReadLine());
+                switch (vibor)
+                {
+                    case '1':
+                        if (file[day] == null)
+                            Console.WriteLine("Заметки нету");
+                        else
+                        {
+                            Console.WriteLine($"Заметка {file[day]}");
+                        }
+                        break;
+                    case '2':
+                        Console.WriteLine("Введите заметку");
+                        file[day] = Console.ReadLine();
+                        break;
+                    case '3':
+                        exit = false;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Такого действия нету");
+            }
+        }
+    }
+}
