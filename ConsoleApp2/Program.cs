@@ -1183,3 +1183,785 @@ class Programm
         }
     }
 }
+
+using System;
+using System.Collections.Generic;
+using Microsoft.Office.Interop.Excel;
+
+//public class ATMMachine
+//{
+//    public List<BankUser> bankUsers { get; set; }
+
+//    public ATMMachine()
+//    {
+//        bankUsers = new List<BankUser>();
+//    }
+
+//    public void DepositFunds(BankUser user)
+//    {
+//        Console.WriteLine("Введите сумму для внесения: ");
+//        int amount;
+//        while (!int.TryParse(Console.ReadLine(), out amount) || amount <= 0)
+//        {
+//            Console.WriteLine("Неверная сумма. Попробуйте снова.");
+//        }
+
+//        user.BankAccount += amount;
+//    }
+
+//    public void WithdrawFunds(BankUser user)
+//    {
+//        Console.WriteLine("Введите сумму для снятия: ");
+//        int amount;
+//        while (!int.TryParse(Console.ReadLine(), out amount) || amount <= 0)
+//        {
+//            Console.WriteLine("Неверная сумма. Попробуйте снова.");
+//        }
+
+//        if (user.BankAccount < amount)
+//        {
+//            Console.WriteLine("Недостаточно средств на счете.");
+//            return;
+//        }
+
+//        user.BankAccount -= amount;
+//    }
+
+//    public void ViewBalance(BankUser user)
+//    {
+//        Console.WriteLine($"Ваш баланс: {user.BankAccount}");
+//    }
+
+//    public void AddUser()
+//    {
+//        try
+//        {
+//            bankUsers.Add(BankUser.Registration());
+//        }
+//        catch (Exception ex)
+//        {
+//            Console.WriteLine("Ошибка добавления пользователя: " + ex.Message);
+//            return;
+//        }
+//    }
+//}
+
+//public class BankUser
+//{
+//    public string Nikname { get; set; }
+//    private string Password { get; set; }
+//    public int BankAccount { get; set; }
+
+//    private bool isAuth { get; set; }
+
+//    private Dictionary<string, string> UserData;
+
+//    public BankUser(string name, string password)
+//    {
+//        Nikname = name;
+//        Password = password;
+//        UserData = new Dictionary<string, string>();
+//        isAuth = false;
+
+//        BankAccount = 0;
+//    }
+
+//    public static BankUser Registration()
+//    {
+//        Console.WriteLine("Введите имя пользователя: ");
+//        string name = Console.ReadLine();
+
+//        while (string.IsNullOrEmpty(name))
+//        {
+//            Console.WriteLine("Поле имени не может быть пустым. Попробуйте снова");
+//            name = Console.ReadLine();
+//        }
+
+//        Console.WriteLine("Введите пароль: ");
+//        string password = Console.ReadLine();
+
+//        while (string.IsNullOrEmpty(password))
+//        {
+//            Console.WriteLine("Пароль не может быть пустым. Попробуйте снова.");
+//            password = Console.ReadLine();
+//        }
+
+//        BankUser newUser = new BankUser(name, password);
+
+//        return newUser;
+//    }
+
+//    public void Authorization(List<BankUser> listUsers)
+//    {
+//        int attempts = 0;
+//        while (attempts < 3)
+//        {
+//            Console.WriteLine("Введите имя пользователя: ");
+//            string authName = Console.ReadLine();
+
+//            if (string.IsNullOrEmpty(authName))
+//            {
+//                Console.WriteLine("Имя пользователя не может быть пустым. Введите снова.");
+//                attempts++;
+//                continue;
+//            }
+
+//            Console.WriteLine("Введите пароль: ");
+//            string authPass = Console.ReadLine();
+
+//            if (string.IsNullOrEmpty(authPass))
+//            {
+//                Console.WriteLine("Пароль не может быть пустым. Попробуйте снова.");
+//                attempts++;
+//                continue;
+//            }
+
+//            foreach (BankUser user in listUsers)
+//            {
+//                if (user.Nikname == authName && user.Password == authPass)
+//                {
+//                    Console.WriteLine("Авторизация прошла успешно.");
+//                    user.isAuth = true;
+//                    return;
+//                }
+//            }
+
+//            Console.WriteLine("Неверное имя пользователя или пароль. Попробуйте снова.");
+//            attempts++;
+//        }
+
+//        Console.WriteLine("Превышен лимит попыток. Авторизация не удалась.");
+//    }
+//}
+
+//class Program
+//{
+//    static void Main(string[] args)
+//    {
+//        ATMMachine bank = new ATMMachine();
+
+//        int choice;
+//        while (true)
+//        {
+//            Console.WriteLine("Введите действие:\n1 - Зарегистрировать пользователя\n2 - Авторизоваться\n" +
+//                "3 - Внести наличные\n4 - Снять наличные\n5 - Показать абаланс\n6 - Выход");
+
+//            try
+//            {
+//                choice = int.Parse(Console.ReadLine());
+//            }
+//            catch (Exception e)
+//            {
+//                Console.WriteLine("Неверный ввод. Попробуйте еще раз.");
+//                continue;
+//            }
+
+//            switch (choice)
+//            {
+//                case 1:
+//                    bank.AddUser();
+//                    break;
+//                case 2:
+//                    BankUser user = new BankUser("", "");
+//                    user.Authorization(bank.bankUsers);
+//                    break;
+//                case 3:
+//                    Console.WriteLine("Введите имя пользователя: ");
+//                    string depositUserName = Console.ReadLine();
+
+//                    BankUser depositUser = bank.bankUsers.Find(u => u.Nikname == depositUserName);
+
+//                    if (depositUserName == null)
+//                    {
+//                        Console.WriteLine("Пользователь не найден.");
+//                    }
+
+//                    else
+//                    {
+//                        bank.DepositFunds(depositUser);
+//                    }
+//                    break;
+
+//                case 4:
+//                    Console.WriteLine("Введите имя пользователя: ");
+//                    string withdrawFundsUser = Console.ReadLine();
+
+//                    BankUser withdrawFundUser = bank.bankUsers.Find(u => u.Nikname ==  withdrawFundsUser);
+
+//                    if (withdrawFundUser == null)
+//                    {
+//                        Console.WriteLine("Имя пользователя не может быть пустым.");
+//                    }
+
+//                    else
+//                    {
+//                        bank.WithdrawFunds(withdrawFundUser);
+//                    }
+
+//                    break;
+
+//                case 5:
+//                    Console.WriteLine("Введите имя пользователя: ");
+//                    string name = Console.ReadLine();
+
+//                    BankUser userBalance = bank.bankUsers.Find(u =>u.Nikname == name);
+
+//                    if (userBalance == null)
+//                    {
+//                        Console.WriteLine("Пользователь не найден.");
+//                    }
+
+//                    else
+//                    {
+//                        bank.ViewBalance(userBalance);
+//                    }
+//                    break;
+//                case 6:
+//                    Environment.Exit(0);
+//                    break;
+//                default:
+//                    Console.WriteLine("Ошибка ввода.");
+//                    break;
+//            }
+//        }
+//    }
+//}
+
+/*Задание 41: Парсинг CSV-файлов
+Создать программу, которая читает данные из CSV-файла и выводит их в
+формате таблицы.*/
+/*
+Файл записан вручную, смотри persons.csv в папке проекта*/
+
+/*public class CSVReader
+{
+    public void ReadCSVFile(string filePath)
+    {
+        CsvConfiguration csvConfiguration = new CsvConfiguration(CultureInfo.CurrentCulture)
+        {
+            HasHeaderRecord = false,
+            Comment = '#',
+            AllowComments = true,
+            Delimiter = ",",
+        };
+
+        using StreamReader streamReader = File.OpenText(filePath);
+        using CsvReader reader = new CsvReader(streamReader, csvConfiguration);
+
+        var records = reader.GetRecords<Person>();
+
+        Console.WriteLine($"{"Name",-15} {"Surname",-15} {"Profession",-20}");
+        Console.WriteLine(new string('-', 50));
+
+        foreach (var person in records)
+        {
+            Console.WriteLine($" {person.Name,-15} {person.Surname,-15} {person.Occupation,-20}");
+        }
+    }
+}
+
+public class Person
+{
+    public string Name { get; set; }
+    public string Surname { get; set; }
+    public string Occupation { get; set; }
+
+    public Person(string name, string surname, string occupation)
+    {
+        Name = name;
+        Surname = surname;
+        Occupation = occupation;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        CSVReader reader = new CSVReader();
+        reader.ReadCSVFile("persons.csv");
+    }
+}*/
+
+/*Задание 42: Калькулятор средней температуры
+Разработать приложение, которое вычисляет среднюю температуру за неделю
+по введенным пользователем данным*/
+
+/*public class AverageTemperatureCalculator
+{
+    public int[] daysTemperature {  get; set; }
+
+    public AverageTemperatureCalculator()
+    {
+        daysTemperature = new int[7];
+        AddDaysTemp();
+    }
+
+    public void AddDaysTemp()
+    {
+        Console.WriteLine("Вводите по очереди температуру в каждый из дней недели: ");
+        for (int i = 0; i < daysTemperature.Length; i++)
+        {
+            while (true)
+            {
+                Console.WriteLine($"День: {i + 1}");
+                if (int.TryParse(Console.ReadLine(), out int temperature))
+                {
+                    daysTemperature[i] = temperature;
+                    break;
+                }
+
+                else
+                {
+                    Console.WriteLine("Неверный ввод.");
+                }
+            }
+        }
+        CalculateAverageTemperature();
+    }
+
+    public void CalculateAverageTemperature()
+    {
+        int sum = 0;
+        foreach (int i in daysTemperature)
+        {
+            sum += i;
+        }
+        Console.WriteLine("Средняя температура за неделю: " + sum / 7 + "°C");
+    }
+
+    static void Main(string[] args)
+    {
+        AverageTemperatureCalculator calculator = new AverageTemperatureCalculator();
+    }
+}*/
+
+/*Задание 44: Автоматический контроль версий
+Создать программу, которая отслеживает изменения в текстовых файлах в
+указанной директории и автоматически сохраняет копии изменений с отметкой
+времени*/
+/*public class VersionControler
+{
+    private readonly string _directoryPath;
+    private readonly string _backupDirectoryPath;
+
+    public VersionControler(string directoryPath, string backUpDirectoryPath)
+    {
+        _directoryPath = directoryPath;
+        _backupDirectoryPath = backUpDirectoryPath;
+    }
+
+    public void StartWatching()
+    {
+        using (var watcher = new FileSystemWatcher(_directoryPath))
+        {
+            watcher.NotifyFilter = NotifyFilters.LastWrite;
+            watcher.Filter = "*.txt";
+            watcher.Changed += OnChanged;
+            watcher.EnableRaisingEvents = true;
+
+            Console.WriteLine($"Отслеживание файла {_directoryPath} началось.");
+            Console.ReadLine();
+        }
+    }
+
+    private void OnChanged(object source, FileSystemEventArgs e)
+    {
+        Console.WriteLine($"Файл {e.FullPath} был изменен.");
+
+        string backupDirectoryPath = $"{_backupDirectoryPath}\\{e.Name}";
+        string backupFilePath = $"{backupDirectoryPath}_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
+
+        if (!Directory.Exists(backupDirectoryPath))
+        {
+            Directory.CreateDirectory(backupDirectoryPath);
+        }
+
+        File.Copy(e.FullPath, backupFilePath, true);
+
+        Console.WriteLine($"Резервная копия сохранена в {backupFilePath}");
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        //В корневой папке проекта можете посмотреть результат
+        string directoryPath = "C:\\Users\\RxGroup\\Desktop\\4 code\\projects\\educational practice\\educational practice\\bin\\Debug\\net8.0";
+        string backupDirectoryPath = @"C:\Users\RxGroup\Desktop\4 code\projects\educational practice\educational practice\bin\Debug\net8.0\backups";
+
+        VersionControler controler = new VersionControler(directoryPath, backupDirectoryPath);
+        controler.StartWatching();
+    }
+}
+*/
+
+/*Задание 45: Генерация отчетов
+Написать программу, которая генерирует отчет в текстовом формате на основе
+введенных пользователем данных (например, отчет по продажам, отчет по
+выполнению задач и т.д.)*/
+
+
+/*class Program
+{
+    static void Main(string[] args)
+    {
+        Console.Write("Введите данные для отчета (в формате дата;описание;сумма, дата;описание;сумма, ...): ");
+        string reportData = Console.ReadLine();
+
+        try
+        {
+            string[] dataRows = reportData.Split(',');
+
+            Console.WriteLine("Отчет:");
+            Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine("| Дата       | Описание          | Сумма      |");
+            Console.WriteLine("---------------------------------------------------");
+
+            int rowIndex = 1;
+            foreach (string dataRow in dataRows)
+            {
+                string[] columns = dataRow.Split(';');
+
+                if (columns.Length != 3)
+                {
+                    throw new Exception($"Неверный формат ввода: {dataRow}");
+                }
+
+                Console.WriteLine($"| {columns[0].PadRight(10)} | {columns[1].PadRight(20)} | {columns[2].PadRight(10)} |");
+
+                rowIndex++;
+            }
+
+            Console.WriteLine("---------------------------------------------------");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка: {ex.Message}");
+        }
+
+        Console.ReadKey();
+    }
+}*/
+
+/*public class PublicEvent
+{
+    public List<Visitor> listOfVisitors { get; set; }
+
+    public PublicEvent()
+    {
+        listOfVisitors = new List<Visitor>();
+    }
+
+    public void AddVisitors()
+    {
+        Console.WriteLine("Введите количество посетителей: ");
+        int count = int.Parse(Console.ReadLine());
+
+        for (int i = 0; i < count; i++)
+        {
+            Console.Clear();
+
+            string name;
+            while (true)
+            {
+                Console.WriteLine("Введите имя посетителя: ");
+                name = Console.ReadLine();
+
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    break;
+                }
+
+                Console.WriteLine("Ошибка ввода. Имя не может быть пустым.");
+            }
+
+            string surname;
+            while (true)
+            {
+                Console.WriteLine("Введите фамилию посетителя: ");
+                surname = Console.ReadLine();
+
+                if (!string.IsNullOrWhiteSpace(surname))
+                {
+                    break;
+                }
+
+                Console.WriteLine("Ошибка ввода. Фамилия не может быть пустой.");
+            }
+
+            int age;
+            while (true)
+            {
+                Console.WriteLine("Введите возраст посетителя: ");
+                if (int.TryParse(Console.ReadLine(), out age) && age > 0)
+                {
+                    break;
+                }
+
+                Console.WriteLine("Ошибка ввода. Возраст не может быть отрицательным или равным нулю.");
+            }
+
+            Visitor newVisitor = new Visitor(name, surname, age);
+            listOfVisitors.Add(newVisitor);
+
+            Console.WriteLine("Посетитель добавлен.");
+        }
+    }
+
+    public void RemoveVisitors(string targetName)
+    {
+        if (listOfVisitors.Count <= 0)
+        {
+            Console.WriteLine("Список посетителей всё еще пуст. Добавьте посетителей.");
+            return;
+        }
+
+        for (int i = listOfVisitors.Count - 1; i >= 0; i--)
+        {
+            if (listOfVisitors[i].Name == targetName)
+            {
+                try
+                {
+                    listOfVisitors.RemoveAt(i);
+                    Console.WriteLine("Пользователь удален.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Ошибка удаления пользователя. Попробуйте снова.");
+                    return;
+                }
+            }
+        }
+
+        Console.WriteLine("Посетитель с таким именем не найден.");
+    }
+
+    public void PrintListOfVisitors()
+    {
+        if (listOfVisitors == null || listOfVisitors.Count <= 0)
+        {
+            Console.WriteLine("Список посетителей все еще пуст. Попробуйте снова.");
+            return;
+        }
+
+        Console.WriteLine($"Количество посетителей: {listOfVisitors.Count}:\n\nИмя\tФамилия\tВозраст\tСтатус");
+        foreach (var visitor in listOfVisitors)
+        {
+            string status = visitor.isHere ? "Присутствует" : "Отсутствует";
+            Console.WriteLine($"{visitor.Name}\t{visitor.Surname}\t{visitor.Age}\t{status}");
+        }
+    }
+
+    public void MarkAsHere(string targetName)
+    {
+        if (listOfVisitors == null || listOfVisitors.Count <= 0)
+        {
+            Console.WriteLine("Список все еще пуст. Добавьте посетителей.");
+            return;
+        }
+
+        foreach (var visitor in listOfVisitors)
+        {
+            if (visitor.Name == targetName)
+            {
+                try
+                {
+                    visitor.isHere = true;
+                    Console.WriteLine("Посетитель отмечен.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Ошибка: " + ex.Message);
+                    return;
+                }
+            }
+        }
+    }
+
+    public class Visitor
+    {
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public int Age { get; set; }
+        public bool isHere;
+
+        public Visitor(string name, string surname, int age)
+        {
+            Name = name;
+            Surname = surname;
+            Age = age;
+            isHere = false;
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        PublicEvent eventManager = new PublicEvent();
+
+        while (true)
+        {
+            Console.WriteLine("Введите действие:\n1 - Добавить посетителей\n2 - Удалить посетителей\n3 - Отметить как пришедшего\n4 - Вывести список посетителей\n5 - Выход ");
+            int choice = int.Parse(Console.ReadLine());
+
+            switch (choice)
+            {
+                case 1:
+                    eventManager.AddVisitors();
+                    break;
+                case 2:
+                    Console.WriteLine("Введите имя посетителя для удаления: ");
+                    string targetName = Console.ReadLine();
+                    eventManager.RemoveVisitors(targetName);
+                    break;
+                case 3:
+                    Console.WriteLine("Введите имя посетителя для отметки: ");
+                    targetName = Console.ReadLine();
+                    eventManager.MarkAsHere(targetName);
+                    break;
+                case 4:
+                    eventManager.PrintListOfVisitors();
+                    break;
+                case 5:
+                    return;
+                default:
+                    Console.WriteLine("Неверный выбор. Попробуйте снова.");
+                    break;
+            }
+        }
+    }
+}*/
+
+
+/*Задание 47: Планировщик задач
+Разработать программу, которая позволяет пользователю создавать задачи,
+задавать для них время выполнения и уведомляет о наступлении времени
+выполнения задачи*/
+
+
+
+/*public class TaskScheduler
+{
+    private Timer Timer { get; set; }
+    private List<Task> tasks { get; set; }
+
+    public TaskScheduler()
+    {
+        tasks = new List<Task>();
+        Timer = new Timer(CheckTimeForTask, null, 1000, 1000);
+    }
+
+    public void AddTask(Task task)
+    {
+        tasks.Add(task);
+    }
+
+    public void RemoveTask(string name)
+    {
+        Task targetTask = tasks.FirstOrDefault(task => task.Name == name);
+        if (targetTask != null)
+        {
+            tasks.Remove(targetTask);
+            Console.WriteLine("Задача удалена.");
+        }
+        else
+        {
+            Console.WriteLine("Задача с таким именем не найдена.");
+        }
+    }
+
+    public void PrintTasksList()
+    {
+        Console.WriteLine("Задача\tВремя выполнения\tСтатус");
+        foreach (var task in tasks)
+        {
+            string status = task.IsCompleted ? "Ожидает выполнения" : "Выполнена";
+            Console.WriteLine($"{task.Name}\t{task.ExecutionTime}\t{status}");
+        }
+    }
+
+    public void CheckTimeForTask(object state)
+    {
+        foreach(var task in tasks)
+        {
+            if (task.ExecutionTime <= DateTime.Now && !task.IsCompleted)
+            {
+                NotifyUser(task);
+                task.IsCompleted = true;
+            }
+        }
+    }
+
+    private void NotifyUser(Task task)
+    {
+        Console.WriteLine($"Пришло время для выполнения задачи: {task.Name}");
+    }
+    public class Task
+    {
+        public string Name { get; set; }
+        public DateTime ExecutionTime { get; set; }
+        public bool IsCompleted { get; set; }
+
+        public Task(string name, DateTime executionTime)
+        {
+            Name = name;
+            ExecutionTime = executionTime;
+            IsCompleted = false;
+        }
+    }
+
+    static void Main(string[] args)
+    {
+        TaskScheduler scheduler = new TaskScheduler();
+
+        while (true)
+        {
+            Console.WriteLine("Выберите действие:");
+            Console.WriteLine("1 - Добавить задачу");
+            Console.WriteLine("2 - Удалить задачу");
+            Console.WriteLine("3 - Вывести список задач");
+            Console.WriteLine("4 - Выход");
+
+            int choice = int.Parse(Console.ReadLine());
+
+            switch (choice)
+            {
+                case 1:
+                    Console.Write("Введите имя задачи: ");
+                    string taskName = Console.ReadLine();
+
+                    Console.Write("Введите время выполнения задачи (в формате dd.MM.yyyy HH:mm): ");
+                    try
+                    {
+                        DateTime executionTime = DateTime.Parse(Console.ReadLine());
+                        Task task = new Task(taskName, executionTime);
+                        scheduler.AddTask(task);
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Ошибка ввода времени выполнения задачи.");
+                    }
+                    break;
+                case 2:
+                    Console.WriteLine("Введите имя задачи: ");
+                    string name = Console.ReadLine();
+                    scheduler.RemoveTask(name);
+                    break;
+                case 3:
+                    scheduler.PrintTasksList();
+                    break;
+                case 4:
+                    return;
+                default:
+                    Console.WriteLine("Неверный выбор. Пожалуйста, выберите снова.");
+                    break;
+            }
+        }
+    }
+}
+
+*/
