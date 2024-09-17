@@ -1965,3 +1965,133 @@ class Program
 }
 
 */
+
+//49
+class Programm 
+{ 
+    static void Main(string[] args)
+    {
+        string[] Words = new string[] {
+            "Привет",
+            "Мир",
+            "Солнце",
+            "Книга",
+            "Стул",
+            "Яблоко",
+            "Цветы",
+            "Дождь",
+            "Гора",
+            "Река",
+            "Лес",
+            "Птица",
+            "Кошка",
+            "Собака",
+            "Дом",
+            "Машина",
+            "Телефон",
+            "Компьютер",
+            "Музыка",
+            "Фильм",
+            "Любовь",
+            "Дружба",
+            "Счастье",
+            "Мечта",
+            "Время",
+            "Жизнь",
+            "Смерть",
+            "Бог",
+            "Дьявол",
+            "Ангел"
+        };
+        Random rand = new Random();
+        string word = Words[rand.Next(0,Words.Length)];
+        char letter;
+        bool[] letters = new bool[word.Length];
+        bool exit = true;
+        int counter = 0, wordTrue = word.Length;
+        int lives = 7;
+        for (int i = 0; i < word.Length; i++) 
+        {
+            Console.Write("_");
+        }
+        Console.WriteLine();
+        while (exit)
+        {
+            Console.WriteLine("Введите букву");
+            Console.WriteLine($"Ваши жизни {lives}");
+            letter = Char.ToLower(Console.ReadKey().KeyChar);
+            Console.Clear();
+            for (int i = 0; i < word.Length; i++)
+            {
+                if (letter == word[i])
+                    letters[i] = true;
+                if (letters[i])
+                    Console.Write(word[i]);
+                else
+                    Console.Write("_");
+            }
+            if (cheak(word, letter) == 1)
+            {
+                lives = lives - cheak(word, letter);
+                gallows(lives);
+            }
+            for (int i = 0;i < word.Length; i++)
+            {
+                if (letters[i])
+                    counter++;
+            }
+            Console.WriteLine();
+            if (counter == wordTrue)
+            {
+                Console.WriteLine("Поздравляю с победой");
+                exit = false;
+            }
+            if (lives == 0)
+            {
+                Console.WriteLine("Вас повешали");
+                exit = false;
+                Console.WriteLine($"Слово было {word}");
+            }
+            counter = 0;
+        }
+    }
+    static public int cheak(string word, char letter)
+    {
+        for(int i = 0; i < word.Length; i++)
+        {
+            if(letter == word[i])
+            {
+                return 0;
+            }
+        }
+        return 1;
+    }
+    static public void gallows(int lives)
+    {
+        Console.WriteLine();
+        switch (lives)
+        {
+            case 0: 
+                Console.WriteLine("Нарисована правая нога"); 
+                break;
+            case 1:
+                Console.WriteLine("Нарисована левая нога");
+                break;
+            case 2:
+                Console.WriteLine("Нарисована левая рука");
+                break;
+            case 3:
+                Console.WriteLine("Нарисована правая рука");
+                break;
+            case 4:
+                Console.WriteLine("Нарисовано тело");
+                break;
+            case 5:
+                Console.WriteLine("Нарисована голова");
+                break;
+            case 6:
+                Console.WriteLine("Нарисована висельница");
+                break;
+        }
+    }
+}
