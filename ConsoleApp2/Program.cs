@@ -2292,3 +2292,404 @@ class Programm
         }
     }
 }
+//50
+public class WeatherDataAnalyst
+{
+    public int CountOfMonths = 3;
+    public List<MonthData> monthDatas;
+
+    public WeatherDataAnalyst()
+    {
+        monthDatas = new List<MonthData>();
+        GetMonthsData();
+        PrintData();
+    }
+
+    private void GetMonthsData()
+    {
+        Console.WriteLine("Введите данные на квартал: ");
+        for (int i = 0; i < CountOfMonths; i++)
+        {
+            Console.WriteLine("Введите среднюю температуру: ");
+            int avarage = int.Parse(Console.ReadLine());
+
+            if (avarage == null)
+            {
+                Console.WriteLine("Средняя температура не может быть пустой. Попробуйте снова. ");
+                Console.Clear();
+                return;
+            }
+
+            Console.WriteLine("Введите количество осадков: ");
+            int precipitation = int.Parse(Console.ReadLine());
+
+            if (precipitation == null || precipitation < 0)
+            {
+                Console.WriteLine("Осадки не могут быть пустыми или меньше нуля. Попробуйте снова.");
+                Console.Clear();
+                return;
+            }
+
+            try
+            {
+                MonthData newMonth = new MonthData("", avarage, precipitation);
+                monthDatas.Add(newMonth);
+                Console.Clear();
+                Console.WriteLine("Месяц добавлен.");
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка добавления данных на месяц: {ex.Message}");
+                break;
+            }
+        }
+    }
+
+    private void PrintData()
+    {
+        monthDatas[0].Name = "Сентрябрь";
+        monthDatas[1].Name = "Октябрь";
+        monthDatas[2].Name = "Ноябрь";
+
+
+        Console.WriteLine("Месяц\tСредняя температура\tОсадки");
+        foreach (MonthData monthData in monthDatas)
+        {
+            Console.WriteLine($"{monthData.Name}:\t{monthData.AverageTemperature}\t{monthData.Precipitation}");
+        }
+    }
+
+
+    public class MonthData
+    {
+        public string Name { get; set; }
+        public int AverageTemperature {get; set;}
+        public int Precipitation { get; set;}
+
+        public MonthData(string name, int avarageTemperature, int precipitation)
+        {
+            Name = name;
+            AverageTemperature = avarageTemperature;
+            Precipitation = precipitation;
+        }
+    }
+
+    static void Main(string[] args)
+    {
+        WeatherDataAnalyst analyst = new WeatherDataAnalyst();
+    }
+}
+
+//51
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace SurveySystem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Survey> surveys = new List<Survey>();
+
+            while (true)
+            {
+                Console.WriteLine("Выберите действие:");
+                Console.WriteLine("1. Создать опрос");
+                Console.WriteLine("2. Пройти опрос");
+                Console.WriteLine("3) Посмотреть результаты");
+                Console.WriteLine("4. Выход");
+
+                int choice = int.Parse(Console.ReadLine());
+
+                switch (choice)
+                {
+                    case 1:
+                        surveys.Add(CreateSurvey());
+                        break;
+                    case 2:
+                        TakeSurvey(surveys);
+                        break;
+                    case 3:
+                        if (surveys.Count == 0)
+                        {
+                            Console.WriteLine("Нет доступных опросов.");
+                            break;
+                        }
+
+                        Console.WriteLine("Доступные опросы:");
+                        for (int i = 0; i < surveys.Count; i++)
+                        {
+                            Console.WriteLine($"{i + 1}. {surveys[i].Name}");
+                        }
+
+                        int surveyIndex = GetIntInput("Выберите номер опроса: ") - 1;
+                        if (surveyIndex < 0 || surveyIndex >= surveys.Count)
+                        {
+                            Console.WriteLine("Неверный выбор опроса.");
+                        }
+                        surveys[surveyIndex].ShowResults();
+                        break;
+                    case 4:
+                        Console.WriteLine("До свидания!");
+                        return;
+                    default:
+                        Console.WriteLine("Неверный выбор. Попробуйте снова.");
+                        break;
+                }
+            }
+        }
+
+        static Survey CreateSurvey()
+        {
+            Console.WriteLine("Создание нового опроса:");
+            Console.Write("Введите название опроса: ");
+            string name = Console.ReadLine();
+
+            Survey survey = new Survey(name);
+
+            while (true)
+            {
+                Console.WriteLine("Добавить вопрос? (да/нет)");
+                string addQuestion = Console.ReadLine().ToLower();
+                if (addQuestion == "да")
+                {
+                    survey.AddQuestion(CreateQuestion());
+                }
+                else if (addQuestion == "нет")
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Неверный ввод");
+                }
+            }
+
+            return survey;
+        }
+
+        static Question CreateQuestion()
+        {
+            Console.WriteLine("Создание нового вопроса:");
+            Console.Write("Введите текст вопроса: ");
+            string text = Console.ReadLine();
+
+            Console.WriteLine("Выберите тип вопроса:");
+            Console.WriteLine("1. Открытый вопрос");
+            Console.WriteLine("2. Выбор одного варианта");
+            Console.WriteLine("3. Выбор нескольких вариантов");
+            int choice = GetIntInput("Введите номер типа вопроса: ");
+
+            QuestionType type = (QuestionType)choice;
+
+            Question question = new Question(text, type);
+
+            if (type == QuestionType.SingleChoice || type == QuestionType.MultipleChoice)
+            {
+                while (true)
+                {
+                    Console.WriteLine("Добавить вариант ответа? (да/нет)");
+                    string addAnswerChoice = Console.ReadLine().ToLower();
+                    if (addAnswerChoice == "да")
+                    {
+                        question.AddAnswerChoice(CreateAnswerChoice());
+                    }
+                    else if (addAnswerChoice == "нет")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Неверный ввод. Попробуйте снова.");
+                    }
+                }
+            }
+
+            return question;
+        }
+
+        static AnswerChoice CreateAnswerChoice()
+        {
+            Console.Write("Введите текст варианта ответа: ");
+            string text = Console.ReadLine();
+            return new AnswerChoice(text);
+        }
+
+        static void TakeSurvey(List<Survey> surveys)
+        {
+            if (surveys.Count == 0)
+            {
+                Console.WriteLine("Нет доступных опросов.");
+                return;
+            }
+
+            Console.WriteLine("Доступные опросы:");
+            for (int i = 0; i < surveys.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {surveys[i].Name}");
+            }
+
+            int surveyIndex = GetIntInput("Выберите номер опроса: ") - 1;
+            if (surveyIndex < 0 || surveyIndex >= surveys.Count)
+            {
+                Console.WriteLine("Неверный выбор опроса.");
+                return;
+            }
+
+            Survey survey = surveys[surveyIndex];
+
+            Console.WriteLine($"Прохождение опроса '{survey.Name}':");
+            foreach (Question question in survey.Questions)
+            {
+                Console.WriteLine(question.Text);
+
+                if (question.Type == QuestionType.SingleChoice || question.Type == QuestionType.MultipleChoice)
+                {
+                    for (int i = 0; i < question.AnswerChoices.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {question.AnswerChoices[i].Text}");
+                    }
+
+                    int choice = GetIntInput("Выберите вариант ответа: ") - 1;
+                    if (choice < 0 || choice >= question.AnswerChoices.Count)
+                    {
+                        Console.WriteLine("Неверный выбор варианта ответа.");
+                        continue;
+                    }
+
+                    survey.AddAnswer(question, question.AnswerChoices[choice]);
+                }
+                else
+                {
+                    Console.Write("Введите ваш ответ: ");
+                    string answer = Console.ReadLine();
+                    survey.AddAnswer(question, answer);
+                }
+            }
+
+            Console.WriteLine("Спасибо за прохождение опроса!");
+        }
+
+        static int GetIntInput(string prompt)
+        {
+            while (true)
+            {
+                Console.Write(prompt);
+                if (int.TryParse(Console.ReadLine(), out int result))
+                {
+                    return result;
+                }
+                Console.WriteLine("Неверный ввод. Попробуйте снова.");
+            }
+        }
+    }
+
+    enum QuestionType
+    {
+        Open,
+        SingleChoice,
+        MultipleChoice
+    }
+
+    class Survey
+    {
+        public string Name { get; private set; }
+        public List<Question> Questions { get; } = new List<Question>();
+        public List<Answer> Answers { get; } = new List<Answer>();
+
+        public Survey(string name)
+        {
+            Name = name;
+        }
+
+        public void AddQuestion(Question question)
+        {
+            Questions.Add(question);
+        }
+
+        public void AddAnswer(Question question, AnswerChoice answerChoice)
+        {
+            Answers.Add(new Answer(question, answerChoice));
+        }
+
+        public void AddAnswer(Question question, string answer)
+        {
+            Answers.Add(new Answer(question, answer));
+        }
+
+        public void ShowResults()
+        {
+            Console.WriteLine($"Результаты опроса '{Name}':");
+
+            foreach (Question question in Questions)
+            {
+                Console.WriteLine($"Вопрос: {question.Text}");
+
+                if (question.Type == QuestionType.Open)
+                {
+                    var answers = Answers.Where(a => a.Question == question).Select(a => a.TextAnswer).ToList();
+                    Console.WriteLine($"Ответы: {string.Join(", ", answers)}");
+                }
+                else
+                {
+                    var answerChoices = question.AnswerChoices;
+                    foreach (AnswerChoice choice in answerChoices)
+                    {
+                        var count = Answers.Count(a => a.Question == question && a.AnswerChoice == choice);
+                        Console.WriteLine($"{choice.Text}: {count} ответов");
+                    }
+                }
+            }
+        }
+    }
+
+    class Question
+    {
+        public string Text { get; private set; }
+        public QuestionType Type { get; private set; }
+        public List<AnswerChoice> AnswerChoices { get; } = new List<AnswerChoice>();
+
+        public Question(string text, QuestionType type)
+        {
+            Text = text;
+            Type = type;
+        }
+
+        public void AddAnswerChoice(AnswerChoice answerChoice)
+        {
+            AnswerChoices.Add(answerChoice);
+        }
+    }
+
+    class AnswerChoice
+    {
+        public string Text { get; private set; }
+
+        public AnswerChoice(string text)
+        {
+            Text = text;
+        }
+    }
+
+    class Answer
+    {
+        public Question Question { get; private set; }
+        public AnswerChoice AnswerChoice { get; private set; }
+        public string TextAnswer { get; private set; }
+
+        public Answer(Question question, AnswerChoice answerChoice)
+        {
+            Question = question;
+            AnswerChoice = answerChoice;
+        }
+
+        public Answer(Question question, string textAnswer)
+        {
+            Question = question;
+            TextAnswer = textAnswer;
+        }
+    }
+}
